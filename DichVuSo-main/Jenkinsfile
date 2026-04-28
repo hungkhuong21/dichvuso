@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS 20.12.2'
+    }
+
+    environment {
+        DEPLOY_PATH = '/home/qnu/www/dichvuso'
+    }
+
+    stages {
+        stage('Pull Code') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'dichvuso-ssh',
+                    url: 'git@github.com:hatuandev/DichVuSo.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    sudo mkdir -p ${DEPLOY_PATH}
+                    sudo rm -rf ${DEPLOY_PATH}/*
+                    sudo cp -r dist/* ${DEPLOY_PATH}/
+                    sudo cp -f Dockerfile ${DEPLOY_PATH}/
+                    sudo cp -f nginx.conf ${DEPLOY_PATH}/
+                    sudo chown -R qnu:qnu ${DEPLOY_PATH}
+                    sudo chmod -R 755 ${DEPLOY_PATH}
+                '''
+            }
+        }
+
+        stage('Build & Deploy Docker') {
+            steps {
+                sh '''
+                    cd ${DEPLOY_PATH}
+                    sudo docker build -t dichvuso-react .
+                    sudo docker rm -f dichvuso-react || true
+                    sudo docker run -d --name dichvuso-react --restart always -p 3002:80 dichvuso-react
+                '''
+            }
+        }
+    }
+}
