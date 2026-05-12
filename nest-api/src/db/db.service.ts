@@ -2,6 +2,8 @@ import Database from 'better-sqlite3';
 import { Injectable } from '@nestjs/common';
 import fs from 'node:fs';
 import path from 'node:path';
+import { SCHEMA_SQL } from './schema';
+import { SEED_SQL } from './seed';
 
 function resolveDbPath() {
   const fromEnv = process.env.SQLITE_PATH || process.env.DATABASE_URL;
@@ -9,10 +11,7 @@ function resolveDbPath() {
   return path.join('D:\\SQLlite', 'dichvuso.db');
 }
 
-function readSqlFromProject(relPath: string) {
-  const abs = path.join(process.cwd(), relPath);
-  return fs.readFileSync(abs, 'utf8');
-}
+
 
 export type DbUserRow = {
   id: number;
@@ -69,10 +68,8 @@ export class DbService {
 
     if (hasUsersTable) return;
 
-    const schemaSql = readSqlFromProject(path.join('sql', 'schema.sql'));
-    const seedSql = readSqlFromProject(path.join('sql', 'seed.users.sql'));
-    this.db.exec(schemaSql);
-    this.db.exec(seedSql);
+    this.db.exec(SCHEMA_SQL);
+    this.db.exec(SEED_SQL);
   }
 
   // auth

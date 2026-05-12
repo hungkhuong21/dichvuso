@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # Frontend - Vite React App
+  frontend:
+    build:
+      context: ./DichVuSo-main
+      dockerfile: Dockerfile
+    container_name: dichvuso-frontend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:3003}
+      - VITE_CLERK_PUBLISHABLE_KEY=${VITE_CLERK_PUBLISHABLE_KEY}
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - dichvuso-network
+
+  # Backend - NestJS API
+  backend:
+    build:
+      context: ./nest-api
+      dockerfile: Dockerfile
+    container_name: dichvuso-backend
+    ports:
+      - "${BACKEND_PORT:-3003}:3003"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - SQLITE_PATH=${SQLITE_PATH:-/app/data/dichvuso.db}
+      - DATABASE_URL=${DATABASE_URL:-/app/data/dichvuso.db}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - ASSETS_PNG_DIR=${ASSETS_PNG_DIR:-/app/data/assets}
+    volumes:
+      - sqlite_data:/app/data
+    restart: unless-stopped
+    networks:
+      - dichvuso-network
+
+  # Admin Dashboard - Next.js
+  admin:
+    build:
+      context: ./next-admin
+      dockerfile: Dockerfile
+    container_name: dichvuso-admin
+    ports:
+      - "${ADMIN_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3003}
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - dichvuso-network
+
+volumes:
+  sqlite_data:
+    driver: local
+
+networks:
+  dichvuso-network:
+    driver: bridge
