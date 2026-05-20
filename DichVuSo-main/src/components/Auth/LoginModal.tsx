@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SignInButton, useAuth, useUser } from "@clerk/clerk-react";
+import { SignInButton, useUser } from "@clerk/clerk-react";
 
 type Props = {
   open: boolean
