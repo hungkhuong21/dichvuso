@@ -42,12 +42,13 @@ export default function AdminLoginPage() {
 
       // Save token & user info
       if (data.accessToken) {
-        // Save to localStorage
+        // Save to cookie (proxy.ts kiểm tra)
+        document.cookie = `dvs_access_token=${data.accessToken}; path=/; max-age=86400; SameSite=Strict`
+        document.cookie = `dvs_user=${JSON.stringify(data.user || {})}; path=/; max-age=86400; SameSite=Strict`
+        
+        // Also localStorage for UI access
         localStorage.setItem('admin_token', data.accessToken)
         localStorage.setItem('admin_user', JSON.stringify(data.user || {}))
-        
-        // Also set cookie for middleware
-        document.cookie = `admin_token=${data.accessToken}; path=/; max-age=86400; SameSite=Strict`
         
         // Redirect to dashboard
         router.push('/admin/dashboard')
