@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // Check if accessing /admin routes (except /admin/login)
-  if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.includes('/admin/login')) {
-    // Check if token exists in cookies or headers
-    const token = request.cookies.get('admin_token')?.value
+  // Check if accessing /admin routes
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    // Check if token exists
+    const token = request.cookies.get('admin_token')?.value || localStorage.getItem?.('admin_token')
 
     if (!token) {
       // No token, redirect to login
-      return NextResponse.redirect(new URL('/admin/login', request.url))
+      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
