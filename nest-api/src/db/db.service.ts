@@ -8,7 +8,7 @@ import { SEED_SQL } from './seed';
 function resolveDbPath() {
   const fromEnv = process.env.SQLITE_PATH || process.env.DATABASE_URL;
   if (fromEnv) return fromEnv;
-  return path.join('D:\\SQLlite', 'dichvuso.db');
+  return path.join(process.cwd(), 'data', 'dichvuso.db');
 }
 
 
