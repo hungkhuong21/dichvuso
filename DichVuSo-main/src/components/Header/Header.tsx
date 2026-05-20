@@ -77,13 +77,13 @@ export default function Header() {
     loadUser()
     setOpenLogin(false)
 
-    // Nếu là admin → redirect sang app admin port 3000
+    // Nếu là admin → redirect sang app admin production
     const raw = window.localStorage.getItem('dvs_user')
     if (raw) {
       try {
         const u = JSON.parse(raw) as UserInfo
         if (u.role === 'admin') {
-          window.location.href = 'http://localhost:3000/admin'
+          window.location.href = 'https://dichvuso-ten.vercel.app/admin'
         }
       } catch {
       }
@@ -171,7 +171,7 @@ export default function Header() {
                           className="flex w-full items-center gap-2 px-4 py-2 text-sm text-yellow-700 hover:bg-yellow-50 transition-colors font-medium"
                           onClick={() => {
                             setShowUserMenu(false)
-                            window.location.href = 'http://localhost:3000/admin/dashboard'
+                            window.location.href = 'https://dichvuso-ten.vercel.app/admin/dashboard'
                           }}
                         >
                           <svg className="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

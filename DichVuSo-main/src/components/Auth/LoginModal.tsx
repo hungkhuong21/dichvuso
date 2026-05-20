@@ -99,7 +99,7 @@ export default function LoginModal({ open, onClose, onLoginSuccess }: Props) {
       }
 
       if (data.user?.role === 'admin') {
-        window.location.href = 'http://localhost:3100/admin/dashboard'
+        window.location.href = 'https://dichvuso-ten.vercel.app/admin/dashboard'
         return
       }
 
