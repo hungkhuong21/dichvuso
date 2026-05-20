@@ -6,7 +6,7 @@ import Collapse from './components/Collapse/Collapse'
 import { removeDiacritics } from './helpers/stringUtils'
 import clsx from 'clsx'
 
-const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3003').replace(/\/+$/, '')
+const BASE_URL = (import.meta.env.VITE_API_URL || 'https://dichvuso.onrender.com').replace(/\/+$/, '')
 
 type ApiCategory = { id: number; name: string; slug: string }
 type ApiService = {
@@ -153,11 +153,6 @@ function App() {
       return next
     })
   }
-
-  const favoriteLabel = useMemo(
-    () => (favoriteIds.size ? `Yêu thích (${favoriteIds.size})` : 'Yêu thích'),
-    [favoriteIds.size]
-  )
 
   // Lọc dịch vụ theo danh mục + search
   const filteredServices = useMemo(() => {
