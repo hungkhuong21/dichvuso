@@ -68,7 +68,7 @@ export default function LoginModal({ open, onClose, onLoginSuccess }: Props) {
     setLoading(true)
 
     try {
-      const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3003').replace(/\/+$/, '')
+      const baseUrl = (import.meta.env.VITE_API_URL || 'https://dichvuso.onrender.com').replace(/\/+$/, '')
 
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
