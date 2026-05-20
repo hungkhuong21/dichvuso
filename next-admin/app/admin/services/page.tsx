@@ -5,7 +5,7 @@ import { Modal } from "@/components/admin/Modal";
 import { fetchCategories, type Category as ApiCategory } from "@/lib/categories-api";
 import { servicesApi, type ApiService } from "@/lib/services-api";
 
-const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3003").replace(/\/+$/, "");
+const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "https://dichvuso.onrender.com").replace(/\/+$/, "");
 const PAGE_SIZE = 8;
 
 function Pagination({ page, total, pageSize, onChange }: {

@@ -1,4 +1,4 @@
-const BASE = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3003').replace(/\/+$/, '');
+const BASE = (process.env.NEXT_PUBLIC_API_URL ?? 'https://dichvuso.onrender.com').replace(/\/+$/, '');
 
 export type ApiService = {
   id: number;

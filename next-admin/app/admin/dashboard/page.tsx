@@ -14,17 +14,17 @@ export default function AdminDashboardPage() {
       .then((res) => setTotalServices(res.total))
       .catch(() => { });
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3003"}/services/stats/visits`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "https://dichvuso.onrender.com"}/services/stats/visits`)
       .then((r) => r.json())
       .then((d) => setTotalVisits(d.totalVisits ?? 0))
       .catch(() => { });
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3003"}/services/popular?limit=5`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "https://dichvuso.onrender.com"}/services/popular?limit=5`)
       .then((r) => r.json())
       .then((d) => setTopServices(d.data ?? []))
       .catch(() => { });
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3003"}/services/recent?limit=5`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "https://dichvuso.onrender.com"}/services/recent?limit=5`)
       .then((r) => r.json())
       .then((d) => setRecentServices(Array.isArray(d) ? d : []))
       .catch(() => { });
